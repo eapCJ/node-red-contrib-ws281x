@@ -10,7 +10,7 @@ This project follows **Test-Driven Development**. All code changes **must** be c
 
 1. **Node.js ≥ 14** (Node-RED 4.x LTS)
 2. **npm ≥ 8**
-3. A Raspberry Pi is required to *run* the node against real hardware, but is **not** required to develop or run the unit-tests—they use a stub driver.
+3. A Raspberry Pi is required to _run_ the node against real hardware, but is **not** required to develop or run the unit-tests—they use a stub driver.
 
 ---
 
@@ -19,21 +19,21 @@ This project follows **Test-Driven Development**. All code changes **must** be c
 1. **Fork** this repo & clone your fork.
 2. Install dependencies:
 
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install
+    ```
 
 3. Run the test-watcher while you work:
 
-   ```bash
-   npm test -- --watch
-   ```
+    ```bash
+    npm test -- --watch
+    ```
 
-4. (Optional) Run Node-RED *from your checkout* to test the nodes in the editor:
+4. (Optional) Run Node-RED _from your checkout_ to test the nodes in the editor:
 
-   ```bash
-   npx node-red -u $(pwd) --safe
-   ```
+    ```bash
+    npx node-red -u $(pwd) --safe
+    ```
 
 ---
 
@@ -44,9 +44,9 @@ This project follows **Test-Driven Development**. All code changes **must** be c
 3. Implement the change ✨ and make the test pass.
 4. Ensure **all** tests, linter and Prettier pass:
 
-   ```bash
-   npm run lint && npm test
-   ```
+    ```bash
+    npm run lint && npm test
+    ```
 
 5. Submit a Pull Request against `main`. CI must be green before merging.
 
@@ -54,11 +54,11 @@ This project follows **Test-Driven Development**. All code changes **must** be c
 
 ## 🛠️ Useful npm Scripts
 
-| Script            | Description                                |
-|-------------------|--------------------------------------------|
-| `npm test`        | Run Mocha test-suite                       |
-| `npm run lint`    | Run ESLint + Prettier rules                |
-| `npm run format`  | Auto-format using Prettier                 |
+| Script           | Description                 |
+| ---------------- | --------------------------- |
+| `npm test`       | Run Mocha test-suite        |
+| `npm run lint`   | Run ESLint + Prettier rules |
+| `npm run format` | Auto-format using Prettier  |
 
 ---
 
@@ -77,9 +77,9 @@ root
 
 ## 📜 Code Style
 
-* **ESLint** + **Prettier** enforce a strict, opinionated style—**CI will fail** if code isn't formatted.
-* Keep files **≤ 250 LOC** as per project guideline.
-* Follow the **Single Responsibility Principle (SRP)**.
+- **ESLint** + **Prettier** enforce a strict, opinionated style—**CI will fail** if code isn't formatted.
+- Keep files **≤ 250 LOC** as per project guideline.
+- Follow the **Single Responsibility Principle (SRP)**.
 
 ---
 
