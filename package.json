@@ -6,7 +6,8 @@
     "scripts": {
         "test": "mocha \"test/*.test.js\"",
         "lint": "eslint . --fix",
-        "format": "prettier --write ."
+        "format": "prettier --write .",
+        "prepublishOnly": "npm test && npm run lint"
     },
     "keywords": [
         "node-red",
@@ -15,7 +16,11 @@
         "ws281x",
         "ws2812",
         "neopixel",
-        "led"
+        "led",
+        "gpio",
+        "pwm",
+        "pcm",
+        "spi"
     ],
     "author": {
         "name": "Eusebiu A. Plesa",
@@ -24,13 +29,14 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/eapcj/node-red-contrib-ws281x.git"
+        "url": "git+https://github.com/eapcj/node-red-contrib-ws281x.git"
     },
     "bugs": {
         "url": "https://github.com/eapcj/node-red-contrib-ws281x/issues"
     },
     "homepage": "https://github.com/eapcj/node-red-contrib-ws281x#readme",
     "node-red": {
+        "version": ">=2.0.0",
         "nodes": {
             "ws281x-config": "nodes/ws281x-config.js",
             "ws281x-output": "nodes/ws281x-output.js"
@@ -57,5 +63,12 @@
     },
     "engines": {
         "node": ">=14"
-    }
+    },
+    "files": [
+        "nodes/",
+        "lib/",
+        "index.js",
+        "README.md",
+        "LICENSE"
+    ]
 }

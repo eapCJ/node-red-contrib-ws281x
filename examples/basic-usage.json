@@ -1,0 +1,104 @@
+[
+    {
+        "id": "example-flow",
+        "type": "tab",
+        "label": "WS281x Basic Example",
+        "disabled": false,
+        "info": "Basic example showing how to control WS281x LEDs with different interfaces (PWM, PCM, SPI)"
+    },
+    {
+        "id": "config-node",
+        "type": "ws281x-config",
+        "name": "LED Strip Config",
+        "interface": "SPI",
+        "gpio": 10,
+        "leds": 60,
+        "brightness": 150,
+        "stripType": "ws2812"
+    },
+    {
+        "id": "inject-red",
+        "type": "inject",
+        "z": "example-flow",
+        "name": "Red",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "red",
+        "payloadType": "str",
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "ws281x-output"
+            ]
+        ]
+    },
+    {
+        "id": "inject-clear",
+        "type": "inject",
+        "z": "example-flow",
+        "name": "Clear",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "clear",
+        "payloadType": "str",
+        "x": 110,
+        "y": 140,
+        "wires": [
+            [
+                "ws281x-output"
+            ]
+        ]
+    },
+    {
+        "id": "inject-rainbow",
+        "type": "inject",
+        "z": "example-flow",
+        "name": "Rainbow Pattern",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"pixels\":[16711680,16753920,16776960,65280,255,4194559,8388863,16711935]}",
+        "payloadType": "json",
+        "x": 130,
+        "y": 180,
+        "wires": [
+            [
+                "ws281x-output"
+            ]
+        ]
+    },
+    {
+        "id": "ws281x-output",
+        "type": "ws281x-output",
+        "z": "example-flow",
+        "name": "LED Strip",
+        "controller": "config-node",
+        "x": 340,
+        "y": 140,
+        "wires": []
+    }
+] 
