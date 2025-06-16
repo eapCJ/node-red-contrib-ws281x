@@ -99,7 +99,8 @@
         <dd>The global brightness for all LEDs (0-255). This can be changed dynamically by the output node.</dd>
         
         <dt>Strip Type <span class="property-type">string</span></dt>
-        <dd>The type of LED strip. Common types are WS2812 (Neopixel) and SK6812. Select SK6812W if your strip has an additional white channel.</dd>
+        <dd>The type of LED strip. Common types are WS2812 (Neopixel) and SK6812. Select SK6812W if your strip has an additional white channel. <br/>
+        <em>All colour data sent by output nodes must be 24-bit RGB (<code>0xRRGGBB</code>); do not include an alpha byte.</em></dd>
     </dl>
     
     <h3>Advanced Properties</h3>

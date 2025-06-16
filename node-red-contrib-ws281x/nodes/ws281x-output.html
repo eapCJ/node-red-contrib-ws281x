@@ -71,7 +71,10 @@
         </li>
         <li><b>Numeric Color:</b>
             <ul>
-                <li>A number representing a 24-bit RGB color (e.g., <code>0xff0000</code> for red). Fills the entire strip with this color.</li>
+                <li>
+                    A number representing a <strong>24-bit RGB</strong> color (<code>0xRRGGBB</code>). For example <code>0xff0000</code> is red. <br/>
+                    <em>Do <u>not</u> include an alpha byte</em> – values like <code>0xff0000ff</code> (RGBA) will shift the channels and give the wrong colour.
+                </li>
             </ul>
         </li>
         <li><b>Object:</b>

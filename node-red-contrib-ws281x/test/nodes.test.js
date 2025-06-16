@@ -121,7 +121,7 @@ describe('WS281x Output Node', () => {
             setTimeout(() => {
                 try {
                     expect(mockWs281x.render.calledOnce).to.be.true;
-                    const expectedColor = 0xff0000ff; // tinycolor('#ff0000').toHex8() = 'ff0000ff'
+                    const expectedColor = 0xff0000; // tinycolor('#ff0000').toHex() = 'ff0000'
                     for (const color of n2.channel.array) {
                         expect(color).to.equal(expectedColor);
                     }
@@ -182,7 +182,7 @@ describe('WS281x Output Node', () => {
             setTimeout(() => {
                 try {
                     expect(mockWs281x.render.calledOnce).to.be.true;
-                    expect(n2.channel.array[3]).to.equal(0x0000ffff); // tinycolor('blue').toHex8() = '0000ffff'
+                    expect(n2.channel.array[3]).to.equal(0x0000ff); // tinycolor('blue').toHex() = '0000ff'
                     done();
                 } catch (err) {
                     done(err);

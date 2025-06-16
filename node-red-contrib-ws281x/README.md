@@ -101,7 +101,8 @@ The `ws281x-output` node accepts various `msg.payload` formats:
 
 #### Numeric Color
 
-A number representing a 24-bit RGB color (e.g., `0xff0000` for red). Fills the entire strip.
+A number representing a **24-bit RGB** colour in the form `0xRRGGBB` (e.g. `0xff0000` for red).  
+⚠️ **Important:** Do <u>not</u> include an alpha byte – values like `0xff0000ff` (RGBA) will produce incorrect colours on the strip.
 
 **Example:**
 

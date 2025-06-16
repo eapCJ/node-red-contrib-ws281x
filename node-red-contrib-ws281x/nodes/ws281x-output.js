@@ -43,7 +43,8 @@ module.exports = function (RED) {
                     else {
                         const color = tinycolor(payload);
                         if (color.isValid()) {
-                            const hexColor = parseInt(color.toHex8(), 16);
+                            // Use 24-bit RGB value expected by ws281x (0xRRGGBB)
+                            const hexColor = parseInt(color.toHex(), 16);
                             for (let i = 0; i < channel.count; i++) {
                                 channel.array[i] = hexColor;
                             }
@@ -66,7 +67,8 @@ module.exports = function (RED) {
                     } else if (payload.index !== undefined && payload.color !== undefined) {
                         const color = tinycolor(payload.color);
                         if (color.isValid()) {
-                            const hexColor = parseInt(color.toHex8(), 16);
+                            // Use 24-bit RGB value expected by ws281x (0xRRGGBB)
+                            const hexColor = parseInt(color.toHex(), 16);
                             if (payload.index >= 0 && payload.index < channel.count) {
                                 channel.array[payload.index] = hexColor;
                             }
