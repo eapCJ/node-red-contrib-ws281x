@@ -6,6 +6,9 @@ const os = require('os');
 // For testing on other platforms, we create a mock.
 let ws281x;
 
+// Track which native module is loaded ('mock'|'official'|'fallback')
+let nativeSource = 'mock';
+
 // The is-pi check is not foolproof, but it's a good first line of defense.
 // A more robust check might involve checking /proc/cpuinfo or /sys/firmware/devicetree/base/model
 const isPi = os.arch() === 'arm' || os.arch() === 'arm64';
@@ -46,7 +49,23 @@ if (process.env.WS281X_MOCK || !isPi) {
     // Assign the mock function as a direct call
     Object.assign(ws281x, mockDirectApi);
 } else {
-    ws281x = require('rpi-ws281x-native');
+    // Try the official package first; if it fails (e.g., missing Pi revision support),
+    const OFFICIAL = 'rpi-ws281x-native';
+    const FALLBACK = '@simontaga/rpi-ws281x-native';
+    try {
+        ws281x = require(OFFICIAL);
+        nativeSource = 'official';
+    } catch (primaryErr) {
+        try {
+            // eslint-disable-next-line node/no-extraneous-require
+            ws281x = require(FALLBACK);
+            nativeSource = 'fallback';
+            // eslint-disable-next-line no-console
+            console.warn(`[ws281x] Falling back to ${FALLBACK} because ${primaryErr.message}`);
+        } catch (fallbackErr) {
+            throw primaryErr;
+        }
+    }
 }
 
 // This will hold the initialized driver instance. We only want one.
@@ -83,47 +102,58 @@ function init(options) {
         return driverInstance;
     }
 
-    try {
+    const tryInitialize = () => {
         // Handle different interfaces by calling the appropriate API method
         let initResult;
-        
         if (options.interface === 'SPI') {
             // For SPI, use the simple API with GPIO 10 (SPI MOSI)
             const channel = options.channels[0];
             initResult = ws281x(channel.count, {
-                gpio: 10,  // SPI MOSI pin
+                gpio: 10,
                 freq: options.freq,
                 dma: options.dma,
                 brightness: channel.brightness,
                 stripType: channel.stripType,
-                invert: channel.invert
+                invert: channel.invert,
             });
-            // Convert to array format for compatibility
             driverInstance = [initResult];
         } else if (options.interface === 'PCM') {
-            // For PCM, use GPIO 21 and specific configuration
             const channel = options.channels[0];
             initResult = ws281x(channel.count, {
-                gpio: 21,  // PCM DOUT pin
+                gpio: 21,
                 freq: options.freq,
                 dma: options.dma,
                 brightness: channel.brightness,
                 stripType: channel.stripType,
-                invert: channel.invert
+                invert: channel.invert,
             });
-            // Convert to array format for compatibility
             driverInstance = [initResult];
         } else {
-            // Default PWM interface
             driverInstance = ws281x.init(options);
         }
-        
+    };
+
+    try {
+        tryInitialize();
         refCount = 1;
         return driverInstance;
     } catch (e) {
+        // Detect unsupported revision error and retry with fallback module if available
+        const unsupported = /hardware revision is not supported/i.test(e.message);
+        if (unsupported && nativeSource === 'official') {
+            try {
+                // eslint-disable-next-line node/no-extraneous-require
+                ws281x = require('@simontaga/rpi-ws281x-native');
+                nativeSource = 'fallback';
+                console.warn('[ws281x] Retrying with @simontaga/rpi-ws281x-native due to unsupported hardware revision');
+                tryInitialize();
+                refCount = 1;
+                return driverInstance;
+            } catch (retryErr) {
+                // if retry fails, fall through to error handling below with original error
+            }
+        }
         console.error('Failed to initialize ws281x driver:', e.message);
-        // In a real scenario, you might want to throw or handle this more gracefully.
-        // For Node-RED, logging the error is often the best approach.
         driverInstance = null;
         refCount = 0;
         throw e;
