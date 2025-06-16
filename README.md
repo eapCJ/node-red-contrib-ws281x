@@ -1,5 +1,7 @@
 # node-red-contrib-ws281x
 
+[![npm](https://img.shields.io/npm/v/node-red-contrib-ws281x.svg)](https://www.npmjs.com/package/node-red-contrib-ws281x) [![downloads](https://img.shields.io/npm/dm/node-red-contrib-ws281x.svg)](https://www.npmjs.com/package/node-red-contrib-ws281x) [![Node-RED](https://img.shields.io/badge/Node--RED-2.x%20%2F%203.x%20%7C%204.x-brightgreen)](https://nodered.org/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Node-RED nodes to control WS281x (Neopixel) LEDs on a Raspberry Pi.
 
 This package provides nodes to interface with `rpi-ws281x-native`, a library that provides native bindings to the rpi_ws281x library by Jeremy Garff.
@@ -8,10 +10,14 @@ This package provides nodes to interface with `rpi-ws281x-native`, a library tha
 
 ## Installation
 
+> **Important:** As of 31 Jan 2022 the Node-RED community encourages **scoped package names** for newly-published nodes ([Packaging guidelines](https://nodered.org/docs/creating-nodes/packaging#naming)).  
+> This module predates that change, so the un-scoped name remains available for backwards-compatibility.  
+> If you are forking or creating a brand-new package we recommend publishing it as `@your-scope/node-red-ws281x` (or similar) and replacing the command below accordingly.
+
 Run the following command in your Node-RED user directory (typically `~/.node-red`):
 
 ```bash
-npm install node-red-contrib-ws281x
+npm install node-red-contrib-ws281x # or: npm install @your-scope/node-red-ws281x
 ```
 
 ## Interface Options
@@ -168,8 +174,6 @@ For 60 LEDs on Pi 4B:
 }
 ```
 
-Your Node-RED custom node now **fully supports all three interfaces safely!** 🎉
-
 ## License
 
 This project is licensed under the MIT License.
@@ -194,3 +198,22 @@ This project is licensed under the MIT License.
 - [rpi-ws281x Official Documentation](https://pypi.org/project/rpi-ws281x/)
 - [ws2812-spi Python Implementation](https://github.com/joosteto/ws2812-spi)
 - [Jeremy Garff's rpi_ws281x Library](https://github.com/jgarff/rpi_ws281x)
+
+## Open-Source, Naming & Packaging
+
+This project follows the [official Node-RED packaging best-practices](https://nodered.org/docs/creating-nodes/packaging):
+
+* `node-red` is included in the `keywords` field of `package.json` so the node can be discovered in the palette manager.
+* A valid [`node-red` block](https://nodered.org/docs/creating-nodes/packaging#packagejson) declares the runtime files for the flow engine.
+* The repository is licensed under the permissive **MIT License** making it suitable for both private and commercial use.
+* Continuous integration is provided by the public test-suite (`npm test`) so you can verify behaviour after every contribution.
+
+If you intend to publish your own fork to npm please ensure you:
+
+1. Use a **scoped name** such as `@my-org/node-red-awesome`.
+2. Include a clear `README.md`, `LICENSE`, and at least one example flow (see `examples/` in the docs).
+3. Validate the package locally with `npx node-red-dev validate` to achieve a green **Node Scorecard** before releasing.
+
+By following these steps your node will be eligible for inclusion in the [Node-RED Flow Library](https://flows.nodered.org/) and receive a public **scorecard** that helps users judge quality and maintenance status.
+
+---
