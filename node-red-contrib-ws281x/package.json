@@ -40,10 +40,13 @@
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.1",
     "mocha": "^11.6.0",
+    "node-red": "^4.0.9",
+    "node-red-node-test-helper": "^0.3.4",
     "prettier": "^3.5.3",
     "sinon": "^21.0.0"
   },
   "dependencies": {
-    "rpi-ws281x-native": "^1.0.4"
+    "rpi-ws281x-native": "^1.0.4",
+    "tinycolor2": "^1.6.0"
   }
 }

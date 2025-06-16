@@ -100,10 +100,28 @@ function finalize() {
     }
 }
 
+/**
+ * Renders the current LED state to the strip
+ */
+function render() {
+    return ws281x.render();
+}
+
+/**
+ * Resets (clears) the LED strip
+ */
+function reset() {
+    return ws281x.reset();
+}
+
 module.exports = {
     init,
     finalize,
-    render: () => ws281x.render(),
-    reset: () => ws281x.reset(),
-    get stripType() { return ws281x.stripType; }
+    render,
+    reset,
+    get stripType() { return ws281x.stripType; },
+    // Expose ws281x for testing
+    get _ws281x() { return ws281x; },
+    // Allow setting ws281x for testing
+    _setWs281x(mockWs281x) { ws281x = mockWs281x; }
 }; 
