@@ -163,4 +163,22 @@ Your Node-RED custom node now **fully supports all three interfaces safely!** ðŸ
 
 ## License
 
-This project is licensed under the MIT License. 
+This project is licensed under the MIT License.
+
+#### **SPI Interface Detailed Analysis**
+
+**Pros:**
+- **Superior Performance**: Lowest CPU usage (~1% vs 5% for PWM/PCM) - hardware-driven timing
+- **Audio Compatibility**: Both analog AND digital audio work perfectly - no conflicts with audio subsystems
+- **System Stability**: No root privileges required when user is in `gpio` group, more predictable timing
+- **Mature Implementation**: Well-established protocol with hardware acceleration via dedicated SPI controller
+
+**Cons:**
+- **Hardware Limitations**: Single GPIO pin only (GPIO 10), shared SPI bus conflicts with other SPI devices
+- **Setup Requirements**: SPI interface must be enabled via `raspi-config`, slightly more complex configuration
+- **Protocol Constraints**: Fixed timing ratios, each WS2812 bit requires 3 SPI bits encoding
+
+**References:**
+- [rpi-ws281x Official Documentation](https://pypi.org/project/rpi-ws281x/)
+- [ws2812-spi Python Implementation](https://github.com/joosteto/ws2812-spi)
+- [Jeremy Garff's rpi_ws281x Library](https://github.com/jgarff/rpi_ws281x) 
