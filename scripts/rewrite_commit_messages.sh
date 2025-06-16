@@ -50,7 +50,7 @@ if [[ ! $PREFIX_TYPE =~ ^($CC_TYPES)$ ]]; then
 fi
 
 # Helper: Python inline script to transform commit message
-read -r -d '' PY_FILTER <<'PY'
+PY_FILTER=$(cat <<'PY'
 import os, re, textwrap
 
 type_prefix = os.environ['PREFIX_TYPE']
@@ -81,6 +81,7 @@ if body:
 else:
     commit.message = f"{header}\n".encode()
 PY
+)
 
 export PREFIX_TYPE CC_TYPES
 
