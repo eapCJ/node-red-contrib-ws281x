@@ -29,6 +29,22 @@ if (process.env.WS281X_MOCK || !isPi) {
             SK6812W: 'sk6812w',
         }
     };
+    
+    // Mock the direct API call used for SPI/PCM
+    function mockDirectApi(count, options) {
+        return {
+            count: count,
+            array: new Uint32Array(count),
+            buffer: Buffer.from(new Uint32Array(count).buffer),
+            gpio: options.gpio,
+            brightness: options.brightness,
+            stripType: options.stripType,
+            invert: options.invert
+        };
+    }
+    
+    // Assign the mock function as a direct call
+    Object.assign(ws281x, mockDirectApi);
 } else {
     ws281x = require('rpi-ws281x-native');
 }
@@ -55,6 +71,7 @@ function getInstanceKey(options) {
  * @param {object} options - The options for the driver.
  * @param {number} options.dma - The DMA channel.
  * @param {number} options.freq - The frequency.
+ * @param {string} options.interface - The interface type (PWM, PCM, SPI).
  * @param {object[]} options.channels - The channel configurations.
  * @returns {object} The initialized driver channels.
  */
@@ -67,7 +84,40 @@ function init(options) {
     }
 
     try {
-        driverInstance = ws281x.init(options);
+        // Handle different interfaces by calling the appropriate API method
+        let initResult;
+        
+        if (options.interface === 'SPI') {
+            // For SPI, use the simple API with GPIO 10 (SPI MOSI)
+            const channel = options.channels[0];
+            initResult = ws281x(channel.count, {
+                gpio: 10,  // SPI MOSI pin
+                freq: options.freq,
+                dma: options.dma,
+                brightness: channel.brightness,
+                stripType: channel.stripType,
+                invert: channel.invert
+            });
+            // Convert to array format for compatibility
+            driverInstance = [initResult];
+        } else if (options.interface === 'PCM') {
+            // For PCM, use GPIO 21 and specific configuration
+            const channel = options.channels[0];
+            initResult = ws281x(channel.count, {
+                gpio: 21,  // PCM DOUT pin
+                freq: options.freq,
+                dma: options.dma,
+                brightness: channel.brightness,
+                stripType: channel.stripType,
+                invert: channel.invert
+            });
+            // Convert to array format for compatibility
+            driverInstance = [initResult];
+        } else {
+            // Default PWM interface
+            driverInstance = ws281x.init(options);
+        }
+        
         refCount = 1;
         return driverInstance;
     } catch (e) {

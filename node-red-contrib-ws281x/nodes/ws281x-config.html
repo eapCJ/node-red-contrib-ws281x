@@ -20,6 +20,7 @@
             name: { value: '' },
             leds: { value: 64, required: true, validate: RED.validators.number() },
             gpio: { value: 18, required: true, validate: RED.validators.number() },
+            interface: { value: 'PWM' },
             freq: { value: 800000, required: true, validate: RED.validators.number() },
             dma: { value: 10, required: true, validate: RED.validators.number() },
             brightness: { value: 150, required: true, validate: RED.validators.number() },
@@ -27,7 +28,7 @@
             stripType: { value: 'WS2812', required: true }
         },
         label: function() {
-            return this.name || `ws281x: ${this.leds} leds @ GPIO${this.gpio}`;
+            return this.name || `ws281x: ${this.leds} leds @ GPIO${this.gpio} (${this.interface})`;
         }
     });
 </script>
@@ -59,6 +60,15 @@
     <div class="form-row">
         <label for="node-config-input-gpio"><i class="fa fa-microchip"></i> GPIO Pin</label>
         <input type="number" id="node-config-input-gpio" placeholder="18" style="width: 100px;">
+        <span style="font-size: 0.8em; color: #888;">PWM: 12,18 | PCM: 21 | SPI: 10</span>
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-interface"><i class="fa fa-cogs"></i> Interface</label>
+        <select id="node-config-input-interface">
+            <option value="PWM">PWM (default)</option>
+            <option value="PCM">PCM (recommended - keeps analog audio)</option>
+            <option value="SPI">SPI (lowest CPU usage)</option>
+        </select>
     </div>
     <div class="form-row">
         <label for="node-config-input-freq"><i class="fa fa-signal"></i> Frequency</label>
@@ -95,7 +105,16 @@
     <h3>Advanced Properties</h3>
     <dl class="message-properties">
         <dt>GPIO Pin <span class="property-type">number</span></dt>
-        <dd>The GPIO pin number where the LED strip's data line is connected. On most Pis, this should be GPIO 18 (physical pin 12) or GPIO 12 (physical pin 32).</dd>
+        <dd>The GPIO pin number where the LED strip's data line is connected. Pin depends on interface: PWM (12,18), PCM (21), SPI (10).</dd>
+        
+        <dt>Interface <span class="property-type">string</span></dt>
+        <dd>The communication interface to use:
+            <ul>
+                <li><strong>PWM</strong>: Default, conflicts with analog audio. GPIO 12 or 18.</li>
+                <li><strong>PCM</strong>: Recommended if you need analog audio. Conflicts with I2S/digital audio. GPIO 21.</li>
+                <li><strong>SPI</strong>: Lowest CPU usage, requires SPI bus exclusive access. GPIO 10.</li>
+            </ul>
+        </dd>
         
         <dt>Frequency <span class="property-type">number</span></dt>
         <dd>The signal frequency in Hz. This is typically 800000 for WS2812/SK6812 and 400000 for older WS2811 strips.</dd>
@@ -106,6 +125,14 @@
         <dt>Invert Signal <span class="property-type">boolean</span></dt>
         <dd>Set this if you are using an inverting level shifter (e.g., a simple NPN transistor circuit).</dd>
     </dl>
+
+    <p><strong>Interface Setup Requirements:</strong></p>
+    <ul>
+        <li><strong>PCM:</strong> Keeps analog audio working, disables I2S digital audio</li>
+        <li><strong>SPI:</strong> Add <code>spidev.bufsiz=32768</code> to /boot/cmdline.txt, user must be in gpio group</li>
+        <li><strong>Pi 4 SPI:</strong> Add <code>core_freq=500</code> and <code>core_freq_min=500</code> to /boot/config.txt</li>
+        <li><strong>Pi 3 SPI:</strong> Add <code>core_freq=250</code> to /boot/config.txt</li>
+    </ul>
 
     <p><strong>Note:</strong> Using this node requires running Node-RED with `root` privileges to access the Raspberry Pi's GPIO memory. It may also conflict with the onboard audio. See the project's README for more details.</p>
 </script> 
