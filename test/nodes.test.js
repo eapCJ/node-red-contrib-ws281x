@@ -30,7 +30,6 @@ mockWs281x.init.callsFake((config) => {
 // Now require the modules - the driver will use its own mock, but we'll replace it
 const configNode = require('../nodes/ws281x-config.js');
 const outputNode = require('../nodes/ws281x-output.js');
-const driver = require('../lib/driver');
 
 helper.init(require.resolve('node-red'));
 
