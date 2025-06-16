@@ -20,76 +20,138 @@
         defaults: {
             name: { value: '' },
             server: { value: '', type: 'ws281x-config', required: true },
-            renderOnMsg: { value: true }
+            renderOnMsg: { value: true },
         },
         inputs: 1,
         outputs: 0,
         icon: 'light.png',
         align: 'right',
-        label: function() {
+        label: function () {
             return this.name || 'ws281x';
-        }
+        },
     });
 </script>
 
 <script type="text/html" data-template-name="ws281x-output">
     <div class="form-row">
-        <label for="node-input-server"><i class="fa fa-server"></i> Controller</label>
-        <input type="text" id="node-input-server">
+        <label for="node-input-server"
+            ><i class="fa fa-server"></i> Controller</label
+        >
+        <input type="text" id="node-input-server" />
     </div>
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="Name">
+        <input type="text" id="node-input-name" placeholder="Name" />
     </div>
     <div class="form-row">
-        <label for="node-input-renderOnMsg" style="width: 70%;"><i class="fa fa-arrow-circle-o-right"></i> Render on every message</label>
-        <input type="checkbox" id="node-input-renderOnMsg" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-renderOnMsg" style="width: 70%;"
+            ><i class="fa fa-arrow-circle-o-right"></i> Render on every
+            message</label
+        >
+        <input
+            type="checkbox"
+            id="node-input-renderOnMsg"
+            style="display: inline-block; width: auto; vertical-align: top;"
+        />
     </div>
     <div class="form-tips">
-        <b>Tip:</b> If you are sending many updates in a tight loop, uncheck "Render on every message" and send a final message with `payload: "render"` to show the result.
+        <b>Tip:</b> If you are sending many updates in a tight loop, uncheck
+        "Render on every message" and send a final message with `payload:
+        "render"` to show the result.
     </div>
 </script>
 
 <script type="text/html" data-help-name="ws281x-output">
     <p>Sends color data to a WS281x (Neopixel) LED strip.</p>
-    <p>This node requires a <code>ws281x-config</code> controller to be configured.</p>
+    <p>
+        This node requires a <code>ws281x-config</code> controller to be
+        configured.
+    </p>
 
     <h3>Inputs</h3>
     <dl class="message-properties">
-        <dt>payload <span class="property-type">string | number | object</span></dt>
-        <dd>The data to send to the LED strip. The payload can be in several formats:</dd>
+        <dt>
+            payload <span class="property-type">string | number | object</span>
+        </dt>
+        <dd>
+            The data to send to the LED strip. The payload can be in several
+            formats:
+        </dd>
     </dl>
-    
+
     <h4>Payload Formats</h4>
     <ul>
-        <li><b>String Commands:</b>
-            <ul>
-                <li><code>"clear"</code>: Clears the strip (sets all LEDs to black) and renders the result.</li>
-                <li><code>"render"</code> or <code>"show"</code>: Renders the current buffer to the LEDs. Useful after sending multiple updates with rendering disabled.</li>
-                <li>Any valid CSS color string (e.g., <code>"red"</code>, <code>"#ff0000"</code>, <code>"rgb(255,0,0)"</code>): Fills the entire strip with that color.</li>
-            </ul>
-        </li>
-        <li><b>Numeric Color:</b>
+        <li>
+            <b>String Commands:</b>
             <ul>
                 <li>
-                    A number representing a <strong>24-bit RGB</strong> color (<code>0xRRGGBB</code>). For example <code>0xff0000</code> is red. <br/>
-                    <em>Do <u>not</u> include an alpha byte</em> – values like <code>0xff0000ff</code> (RGBA) will shift the channels and give the wrong colour.
+                    <code>"clear"</code>: Clears the strip (sets all LEDs to
+                    black) and renders the result.
+                </li>
+                <li>
+                    <code>"render"</code> or <code>"show"</code>: Renders the
+                    current buffer to the LEDs. Useful after sending multiple
+                    updates with rendering disabled.
+                </li>
+                <li>
+                    Any valid CSS color string (e.g., <code>"red"</code>,
+                    <code>"#ff0000"</code>, <code>"rgb(255,0,0)"</code>): Fills
+                    the entire strip with that color.
                 </li>
             </ul>
         </li>
-        <li><b>Object:</b>
+        <li>
+            <b>Numeric Color:</b>
             <ul>
-                <li><code>{ pixels: [...] }</code>: An array of numbers representing the colors for the entire strip. The array is mapped to the LEDs starting from index 0.</li>
-                <li><code>{ index: N, color: C }</code>: Sets the LED at <code>index</code> to the specified <code>color</code>. The color can be a CSS string or a number.</li>
-                <li><code>{ brightness: B }</code>: Changes the global brightness of the strip. <code>B</code> must be a number between 0 and 255.</li>
-                <li>The object can also contain a <code>render: false</code> property to prevent the strip from being updated immediately. This allows for sending multiple updates before a final render command.</li>
+                <li>
+                    A number representing a <strong>24-bit RGB</strong> color
+                    (<code>0xRRGGBB</code>). For example
+                    <code>0xff0000</code> is red. <br />
+                    <em>Do <u>not</u> include an alpha byte</em> – values like
+                    <code>0xff0000ff</code> (RGBA) will shift the channels and
+                    give the wrong colour.
+                </li>
+            </ul>
+        </li>
+        <li>
+            <b>Object:</b>
+            <ul>
+                <li>
+                    <code>{ pixels: [...] }</code>: An array of numbers
+                    representing the colors for the entire strip. The array is
+                    mapped to the LEDs starting from index 0.
+                </li>
+                <li>
+                    <code>{ index: N, color: C }</code>: Sets the LED at
+                    <code>index</code> to the specified <code>color</code>. The
+                    color can be a CSS string or a number.
+                </li>
+                <li>
+                    <code>{ brightness: B }</code>: Changes the global
+                    brightness of the strip. <code>B</code> must be a number
+                    between 0 and 255.
+                </li>
+                <li>
+                    The object can also contain a
+                    <code>render: false</code> property to prevent the strip
+                    from being updated immediately. This allows for sending
+                    multiple updates before a final render command.
+                </li>
             </ul>
         </li>
     </ul>
 
     <h3>Node Configuration</h3>
     <dl class="message-properties">
-        <dt>Render on every message <span class="property-type">boolean</span></dt>
-        <dd>If checked, every message sent to the node will trigger a render, showing the changes on the LED strip. If unchecked, you must send a separate message with a payload of <code>"render"</code> to see the result. This is useful for animations or rapid updates where you want to build a frame before showing it.</dd>
+        <dt>
+            Render on every message <span class="property-type">boolean</span>
+        </dt>
+        <dd>
+            If checked, every message sent to the node will trigger a render,
+            showing the changes on the LED strip. If unchecked, you must send a
+            separate message with a payload of <code>"render"</code> to see the
+            result. This is useful for animations or rapid updates where you
+            want to build a frame before showing it.
+        </dd>
     </dl>
-</script> 
+</script>

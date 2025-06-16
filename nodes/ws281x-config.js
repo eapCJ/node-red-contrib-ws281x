@@ -44,9 +44,14 @@ module.exports = function (RED) {
             // init() returns an array of channels
             const channels = driver.init(driverConfig);
             node.channel = channels[0];
-            node.log(`Initialized ws281x driver for ${node.leds} LEDs on GPIO ${node.gpio} using ${node.interface} interface`);
+            node.log(
+                `Initialized ws281x driver for ${node.leds} LEDs on GPIO ${node.gpio} using ${node.interface} interface`,
+            );
         } catch (err) {
-            node.error(`Failed to initialize ws281x driver: ${err.message}`, err);
+            node.error(
+                `Failed to initialize ws281x driver: ${err.message}`,
+                err,
+            );
             // We can set a status to indicate the error in the editor
             node.status({ fill: 'red', shape: 'dot', text: 'Init Failed' });
         }
@@ -59,4 +64,4 @@ module.exports = function (RED) {
     }
 
     RED.nodes.registerType('ws281x-config', Ws281xConfigNode);
-}; 
+};

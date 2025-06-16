@@ -15,12 +15,12 @@ const mockWs281x = {
         WS2812: 'ws2812',
         SK6812: 'sk6812',
         SK6812W: 'sk6812w',
-    }
+    },
 };
 
 // Set up the mock init to return proper channel structure
 mockWs281x.init.callsFake((config) => {
-    return config.channels.map(channelConfig => ({
+    return config.channels.map((channelConfig) => ({
         ...channelConfig,
         array: new Uint32Array(channelConfig.count),
         buffer: Buffer.from(new Uint32Array(channelConfig.count).buffer),
@@ -41,15 +41,15 @@ describe('WS281x Output Node', () => {
         const driverPath = require.resolve('../lib/driver');
         delete require.cache[driverPath];
         const freshDriver = require('../lib/driver');
-        
+
         // Set our spy-enabled mock in the fresh driver instance
         freshDriver._setWs281x(mockWs281x);
-        
+
         // Reset spies
         mockWs281x.render.resetHistory();
         mockWs281x.reset.resetHistory();
         mockWs281x.finalize.resetHistory();
-        
+
         helper.startServer(done);
     });
 
@@ -112,10 +112,10 @@ describe('WS281x Output Node', () => {
 
             // Get the current driver instance (may have been reloaded)
             const currentDriver = require('../lib/driver');
-            
+
             // Verify our mock is in place
             expect(currentDriver._ws281x).to.equal(mockWs281x);
-            
+
             n1.receive({ payload: '#ff0000' });
 
             setTimeout(() => {
@@ -248,4 +248,4 @@ describe('WS281x Output Node', () => {
             }, 50);
         });
     });
-}); 
+});

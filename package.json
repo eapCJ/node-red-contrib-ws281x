@@ -1,55 +1,61 @@
 {
-  "name": "node-red-contrib-ws281x",
-  "version": "1.0.0",
-  "description": "Node-RED nodes to control WS281x LEDs on a Raspberry Pi",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha \"test/*.test.js\""
-  },
-  "keywords": [
-    "node-red",
-    "raspberry-pi",
-    "rpi",
-    "ws281x",
-    "ws2812",
-    "neopixel",
-    "led"
-  ],
-  "author": {
-    "name": "Eusebiu A. Plesa",
-    "email": "eusebiu.plesa@gmail.com"
-  },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/eapcj/node-red-contrib-ws281x.git"
-  },
-  "bugs": {
-    "url": "https://github.com/eapcj/node-red-contrib-ws281x/issues"
-  },
-  "homepage": "https://github.com/eapcj/node-red-contrib-ws281x#readme",
-  "node-red": {
-    "nodes": {
-      "ws281x-config": "nodes/ws281x-config.js",
-      "ws281x-output": "nodes/ws281x-output.js"
+    "name": "node-red-contrib-ws281x",
+    "version": "1.0.0",
+    "description": "Node-RED nodes to control WS281x LEDs on a Raspberry Pi",
+    "main": "index.js",
+    "scripts": {
+        "test": "mocha \"test/*.test.js\"",
+        "lint": "eslint .",
+        "format": "prettier --write ."
+    },
+    "keywords": [
+        "node-red",
+        "raspberry-pi",
+        "rpi",
+        "ws281x",
+        "ws2812",
+        "neopixel",
+        "led"
+    ],
+    "author": {
+        "name": "Eusebiu A. Plesa",
+        "email": "eusebiu.plesa@gmail.com"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/eapcj/node-red-contrib-ws281x.git"
+    },
+    "bugs": {
+        "url": "https://github.com/eapcj/node-red-contrib-ws281x/issues"
+    },
+    "homepage": "https://github.com/eapcj/node-red-contrib-ws281x#readme",
+    "node-red": {
+        "nodes": {
+            "ws281x-config": "nodes/ws281x-config.js",
+            "ws281x-output": "nodes/ws281x-output.js"
+        }
+    },
+    "devDependencies": {
+        "chai": "^5.2.0",
+        "eslint": "^9.29.0",
+        "eslint-config-prettier": "^10.1.5",
+        "eslint-plugin-prettier": "^5.4.1",
+        "globals": "^15.8.0",
+        "mocha": "^11.6.0",
+        "node-red": "^4.0.9",
+        "node-red-node-test-helper": "^0.3.4",
+        "prettier": "^3.5.3",
+        "sinon": "^21.0.0"
+    },
+    "optionalDependencies": {
+        "rpi-ws281x-native": "^1.0.4",
+        "@simontaga/rpi-ws281x-native": "^1.0.5"
+    },
+    "dependencies": {
+        "tinycolor2": "^1.6.0"
+    },
+    "engines": {
+        "node": ">=14"
     }
-  },
-  "devDependencies": {
-    "chai": "^5.2.0",
-    "eslint": "^9.29.0",
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-prettier": "^5.4.1",
-    "mocha": "^11.6.0",
-    "node-red": "^4.0.9",
-    "node-red-node-test-helper": "^0.3.4",
-    "prettier": "^3.5.3",
-    "sinon": "^21.0.0"
-  },
-  "optionalDependencies": {
-    "rpi-ws281x-native": "^1.0.4",
-    "@simontaga/rpi-ws281x-native": "^1.0.5"
-  },
-  "dependencies": {
-    "tinycolor2": "^1.6.0"
-  }
 }

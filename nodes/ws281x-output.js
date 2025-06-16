@@ -21,8 +21,15 @@ module.exports = function (RED) {
             // Get the channel from the config node instance
             const channel = node.server.channel;
             if (!channel) {
-                node.error('ws281x driver not initialized. Deploy config first.', msg);
-                node.status({ fill: 'red', shape: 'dot', text: 'Driver Error' });
+                node.error(
+                    'ws281x driver not initialized. Deploy config first.',
+                    msg,
+                );
+                node.status({
+                    fill: 'red',
+                    shape: 'dot',
+                    text: 'Driver Error',
+                });
                 if (done) done();
                 return;
             }
@@ -35,12 +42,18 @@ module.exports = function (RED) {
                     if (payload.toLowerCase() === 'clear') {
                         driver.reset(); // reset() clears and renders
                         render = false;
-                        node.status({ fill: 'green', shape: 'dot', text: 'Ready' });
-                    } else if (payload.toLowerCase() === 'render' || payload.toLowerCase() === 'show') {
+                        node.status({
+                            fill: 'green',
+                            shape: 'dot',
+                            text: 'Ready',
+                        });
+                    } else if (
+                        payload.toLowerCase() === 'render' ||
+                        payload.toLowerCase() === 'show'
+                    ) {
                         // Just render the current state
                         render = true;
-                    }
-                    else {
+                    } else {
                         const color = tinycolor(payload);
                         if (color.isValid()) {
                             // Use 24-bit RGB value expected by ws281x (0xRRGGBB)
@@ -64,12 +77,18 @@ module.exports = function (RED) {
                         for (let i = 0; i < len; i++) {
                             channel.array[i] = pixelData[i];
                         }
-                    } else if (payload.index !== undefined && payload.color !== undefined) {
+                    } else if (
+                        payload.index !== undefined &&
+                        payload.color !== undefined
+                    ) {
                         const color = tinycolor(payload.color);
                         if (color.isValid()) {
                             // Use 24-bit RGB value expected by ws281x (0xRRGGBB)
                             const hexColor = parseInt(color.toHex(), 16);
-                            if (payload.index >= 0 && payload.index < channel.count) {
+                            if (
+                                payload.index >= 0 &&
+                                payload.index < channel.count
+                            ) {
                                 channel.array[payload.index] = hexColor;
                             }
                         }
@@ -112,4 +131,4 @@ module.exports = function (RED) {
     }
 
     RED.nodes.registerType('ws281x-output', Ws281xOutputNode);
-}; 
+};

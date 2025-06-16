@@ -18,36 +18,79 @@
         category: 'config',
         defaults: {
             name: { value: '' },
-            leds: { value: 64, required: true, validate: RED.validators.number() },
-            gpio: { value: 18, required: true, validate: RED.validators.number() },
+            leds: {
+                value: 64,
+                required: true,
+                validate: RED.validators.number(),
+            },
+            gpio: {
+                value: 18,
+                required: true,
+                validate: RED.validators.number(),
+            },
             interface: { value: 'PWM' },
-            freq: { value: 800000, required: true, validate: RED.validators.number() },
-            dma: { value: 10, required: true, validate: RED.validators.number() },
-            brightness: { value: 150, required: true, validate: RED.validators.number() },
+            freq: {
+                value: 800000,
+                required: true,
+                validate: RED.validators.number(),
+            },
+            dma: {
+                value: 10,
+                required: true,
+                validate: RED.validators.number(),
+            },
+            brightness: {
+                value: 150,
+                required: true,
+                validate: RED.validators.number(),
+            },
             invert: { value: false },
-            stripType: { value: 'WS2812', required: true }
+            stripType: { value: 'WS2812', required: true },
         },
-        label: function() {
-            return this.name || `ws281x: ${this.leds} leds @ GPIO${this.gpio} (${this.interface})`;
-        }
+        label: function () {
+            return (
+                this.name ||
+                `ws281x: ${this.leds} leds @ GPIO${this.gpio} (${this.interface})`
+            );
+        },
     });
 </script>
 
 <script type="text/html" data-template-name="ws281x-config">
     <div class="form-row">
-        <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
-        <input type="text" id="node-config-input-name" placeholder="Name">
+        <label for="node-config-input-name"
+            ><i class="fa fa-tag"></i> Name</label
+        >
+        <input type="text" id="node-config-input-name" placeholder="Name" />
     </div>
     <div class="form-row">
-        <label for="node-config-input-leds"><i class="fa fa-lightbulb-o"></i> LEDs</label>
-        <input type="number" id="node-config-input-leds" placeholder="Number of LEDs" style="width: 100px;">
+        <label for="node-config-input-leds"
+            ><i class="fa fa-lightbulb-o"></i> LEDs</label
+        >
+        <input
+            type="number"
+            id="node-config-input-leds"
+            placeholder="Number of LEDs"
+            style="width: 100px;"
+        />
     </div>
     <div class="form-row">
-        <label for="node-config-input-brightness"><i class="fa fa-sun-o"></i> Brightness</label>
-        <input type="number" id="node-config-input-brightness" placeholder="0-255" style="width: 100px;" min="0" max="255">
+        <label for="node-config-input-brightness"
+            ><i class="fa fa-sun-o"></i> Brightness</label
+        >
+        <input
+            type="number"
+            id="node-config-input-brightness"
+            placeholder="0-255"
+            style="width: 100px;"
+            min="0"
+            max="255"
+        />
     </div>
     <div class="form-row">
-        <label for="node-config-input-stripType"><i class="fa fa-cogs"></i> Strip Type</label>
+        <label for="node-config-input-stripType"
+            ><i class="fa fa-cogs"></i> Strip Type</label
+        >
         <select id="node-config-input-stripType">
             <option value="WS2811">WS2811</option>
             <option value="WS2812">WS2812 / Neopixel</option>
@@ -55,15 +98,26 @@
             <option value="SK6812W">SK6812W (with white channel)</option>
         </select>
     </div>
-    <hr/>
+    <hr />
     <h4>Advanced Settings</h4>
     <div class="form-row">
-        <label for="node-config-input-gpio"><i class="fa fa-microchip"></i> GPIO Pin</label>
-        <input type="number" id="node-config-input-gpio" placeholder="18" style="width: 100px;">
-        <span style="font-size: 0.8em; color: #888;">PWM: 12,18 | PCM: 21 | SPI: 10</span>
+        <label for="node-config-input-gpio"
+            ><i class="fa fa-microchip"></i> GPIO Pin</label
+        >
+        <input
+            type="number"
+            id="node-config-input-gpio"
+            placeholder="18"
+            style="width: 100px;"
+        />
+        <span style="font-size: 0.8em; color: #888;"
+            >PWM: 12,18 | PCM: 21 | SPI: 10</span
+        >
     </div>
     <div class="form-row">
-        <label for="node-config-input-interface"><i class="fa fa-cogs"></i> Interface</label>
+        <label for="node-config-input-interface"
+            ><i class="fa fa-cogs"></i> Interface</label
+        >
         <select id="node-config-input-interface">
             <option value="PWM">PWM (default)</option>
             <option value="PCM">PCM (recommended - keeps analog audio)</option>
@@ -71,69 +125,144 @@
         </select>
     </div>
     <div class="form-row">
-        <label for="node-config-input-freq"><i class="fa fa-signal"></i> Frequency</label>
-        <input type="number" id="node-config-input-freq" placeholder="800000" style="width: 100px;">
+        <label for="node-config-input-freq"
+            ><i class="fa fa-signal"></i> Frequency</label
+        >
+        <input
+            type="number"
+            id="node-config-input-freq"
+            placeholder="800000"
+            style="width: 100px;"
+        />
         <span style="font-size: 0.8em; color: #888;">Hz</span>
     </div>
     <div class="form-row">
-        <label for="node-config-input-dma"><i class="fa fa-random"></i> DMA Channel</label>
-        <input type="number" id="node-config-input-dma" placeholder="10" style="width: 100px;">
+        <label for="node-config-input-dma"
+            ><i class="fa fa-random"></i> DMA Channel</label
+        >
+        <input
+            type="number"
+            id="node-config-input-dma"
+            placeholder="10"
+            style="width: 100px;"
+        />
     </div>
     <div class="form-row">
-        <label for="node-config-input-invert"><i class="fa fa-retweet"></i> Invert Signal</label>
-        <input type="checkbox" id="node-config-input-invert" style="display: inline-block; width: auto; vertical-align: top;">
-        <label for="node-config-input-invert" style="width: 70%;"> Invert signal (for NPN transistor level shifters)</label>
+        <label for="node-config-input-invert"
+            ><i class="fa fa-retweet"></i> Invert Signal</label
+        >
+        <input
+            type="checkbox"
+            id="node-config-input-invert"
+            style="display: inline-block; width: auto; vertical-align: top;"
+        />
+        <label for="node-config-input-invert" style="width: 70%;">
+            Invert signal (for NPN transistor level shifters)</label
+        >
     </div>
 </script>
 
 <script type="text/html" data-help-name="ws281x-config">
     <p>Configures a WS281x (Neopixel) LED strip connected to a Raspberry Pi.</p>
-    <p>This node is a configuration node and holds the connection to the hardware driver. Other `ws281x` nodes will use this configuration to control the LEDs.</p>
-    
+    <p>
+        This node is a configuration node and holds the connection to the
+        hardware driver. Other `ws281x` nodes will use this configuration to
+        control the LEDs.
+    </p>
+
     <h3>Properties</h3>
     <dl class="message-properties">
         <dt>LEDs <span class="property-type">number</span></dt>
         <dd>The number of LEDs in the strip.</dd>
-        
+
         <dt>Brightness <span class="property-type">number</span></dt>
-        <dd>The global brightness for all LEDs (0-255). This can be changed dynamically by the output node.</dd>
-        
+        <dd>
+            The global brightness for all LEDs (0-255). This can be changed
+            dynamically by the output node.
+        </dd>
+
         <dt>Strip Type <span class="property-type">string</span></dt>
-        <dd>The type of LED strip. Common types are WS2812 (Neopixel) and SK6812. Select SK6812W if your strip has an additional white channel. <br/>
-        <em>All colour data sent by output nodes must be 24-bit RGB (<code>0xRRGGBB</code>); do not include an alpha byte.</em></dd>
+        <dd>
+            The type of LED strip. Common types are WS2812 (Neopixel) and
+            SK6812. Select SK6812W if your strip has an additional white
+            channel. <br />
+            <em
+                >All colour data sent by output nodes must be 24-bit RGB
+                (<code>0xRRGGBB</code>); do not include an alpha byte.</em
+            >
+        </dd>
     </dl>
-    
+
     <h3>Advanced Properties</h3>
     <dl class="message-properties">
         <dt>GPIO Pin <span class="property-type">number</span></dt>
-        <dd>The GPIO pin number where the LED strip's data line is connected. Pin depends on interface: PWM (12,18), PCM (21), SPI (10).</dd>
-        
+        <dd>
+            The GPIO pin number where the LED strip's data line is connected.
+            Pin depends on interface: PWM (12,18), PCM (21), SPI (10).
+        </dd>
+
         <dt>Interface <span class="property-type">string</span></dt>
-        <dd>The communication interface to use:
+        <dd>
+            The communication interface to use:
             <ul>
-                <li><strong>PWM</strong>: Default, conflicts with analog audio. GPIO 12 or 18.</li>
-                <li><strong>PCM</strong>: Recommended if you need analog audio. Conflicts with I2S/digital audio. GPIO 21.</li>
-                <li><strong>SPI</strong>: Lowest CPU usage, requires SPI bus exclusive access. GPIO 10.</li>
+                <li>
+                    <strong>PWM</strong>: Default, conflicts with analog audio.
+                    GPIO 12 or 18.
+                </li>
+                <li>
+                    <strong>PCM</strong>: Recommended if you need analog audio.
+                    Conflicts with I2S/digital audio. GPIO 21.
+                </li>
+                <li>
+                    <strong>SPI</strong>: Lowest CPU usage, requires SPI bus
+                    exclusive access. GPIO 10.
+                </li>
             </ul>
         </dd>
-        
+
         <dt>Frequency <span class="property-type">number</span></dt>
-        <dd>The signal frequency in Hz. This is typically 800000 for WS2812/SK6812 and 400000 for older WS2811 strips.</dd>
-        
+        <dd>
+            The signal frequency in Hz. This is typically 800000 for
+            WS2812/SK6812 and 400000 for older WS2811 strips.
+        </dd>
+
         <dt>DMA Channel <span class="property-type">number</span></dt>
-        <dd>The DMA channel to use. Avoid changing this unless you have a specific reason, such as a hardware conflict.</dd>
-        
+        <dd>
+            The DMA channel to use. Avoid changing this unless you have a
+            specific reason, such as a hardware conflict.
+        </dd>
+
         <dt>Invert Signal <span class="property-type">boolean</span></dt>
-        <dd>Set this if you are using an inverting level shifter (e.g., a simple NPN transistor circuit).</dd>
+        <dd>
+            Set this if you are using an inverting level shifter (e.g., a simple
+            NPN transistor circuit).
+        </dd>
     </dl>
 
     <p><strong>Interface Setup Requirements:</strong></p>
     <ul>
-        <li><strong>PCM:</strong> Keeps analog audio working, disables I2S digital audio</li>
-        <li><strong>SPI:</strong> Add <code>spidev.bufsiz=32768</code> to /boot/cmdline.txt, user must be in gpio group</li>
-        <li><strong>Pi 4 SPI:</strong> Add <code>core_freq=500</code> and <code>core_freq_min=500</code> to /boot/config.txt</li>
-        <li><strong>Pi 3 SPI:</strong> Add <code>core_freq=250</code> to /boot/config.txt</li>
+        <li>
+            <strong>PCM:</strong> Keeps analog audio working, disables I2S
+            digital audio
+        </li>
+        <li>
+            <strong>SPI:</strong> Add <code>spidev.bufsiz=32768</code> to
+            /boot/cmdline.txt, user must be in gpio group
+        </li>
+        <li>
+            <strong>Pi 4 SPI:</strong> Add <code>core_freq=500</code> and
+            <code>core_freq_min=500</code> to /boot/config.txt
+        </li>
+        <li>
+            <strong>Pi 3 SPI:</strong> Add <code>core_freq=250</code> to
+            /boot/config.txt
+        </li>
     </ul>
 
-    <p><strong>Note:</strong> Using this node requires running Node-RED with `root` privileges to access the Raspberry Pi's GPIO memory. It may also conflict with the onboard audio. See the project's README for more details.</p>
-</script> 
+    <p>
+        <strong>Note:</strong> Using this node requires running Node-RED with
+        `root` privileges to access the Raspberry Pi's GPIO memory. It may also
+        conflict with the onboard audio. See the project's README for more
+        details.
+    </p>
+</script>

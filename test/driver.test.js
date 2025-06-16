@@ -77,26 +77,29 @@ describe('Driver Wrapper', () => {
         });
 
         it('should finalize the driver only when refCount reaches 0', () => {
-             // To test this, we need to spy on the underlying ws281x.finalize.
-             // Since we are mocking, we can't directly spy on the `require`.
-             // This is a limitation of the current mock setup.
-             // We can only test the observable behavior.
+            // To test this, we need to spy on the underlying ws281x.finalize.
+            // Since we are mocking, we can't directly spy on the `require`.
+            // This is a limitation of the current mock setup.
+            // We can only test the observable behavior.
 
-             driver.init(channelConfig); // refCount = 1
-             driver.init(channelConfig); // refCount = 2
+            driver.init(channelConfig); // refCount = 1
+            driver.init(channelConfig); // refCount = 2
 
-             driver.finalize(); // refCount becomes 1. Driver should NOT be finalized.
-             
-             // If the driver were finalized, this would throw or return a new instance.
-             const channels1 = driver.init(channelConfig);
+            driver.finalize(); // refCount becomes 1. Driver should NOT be finalized.
 
-             driver.finalize(); // refCount becomes 1 again
-             driver.finalize(); // refCount becomes 0. Driver IS finalized.
+            // If the driver were finalized, this would throw or return a new instance.
+            const channels1 = driver.init(channelConfig);
 
-             // Now, init should return a new instance.
-             const channels2 = driver.init(channelConfig);
-             
-             expect(channels1).to.not.equal(channels2, "A new driver instance should be created after finalization.");
+            driver.finalize(); // refCount becomes 1 again
+            driver.finalize(); // refCount becomes 0. Driver IS finalized.
+
+            // Now, init should return a new instance.
+            const channels2 = driver.init(channelConfig);
+
+            expect(channels1).to.not.equal(
+                channels2,
+                'A new driver instance should be created after finalization.',
+            );
         });
     });
 
@@ -111,4 +114,4 @@ describe('Driver Wrapper', () => {
         expect(driver.reset).to.be.a('function');
         // We don't test their internals as they are direct pass-throughs to the mock.
     });
-}); 
+});
