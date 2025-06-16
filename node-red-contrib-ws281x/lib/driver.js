@@ -11,7 +11,6 @@ let ws281x;
 const isPi = os.arch() === 'arm' || os.arch() === 'arm64';
 
 if (process.env.WS281X_MOCK || !isPi) {
-    console.log('Using mock ws281x driver.');
     ws281x = {
         init: (config) => {
             // Mock the channel array structure

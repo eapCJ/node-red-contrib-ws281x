@@ -18,28 +18,21 @@ module.exports = function (RED) {
         node.status({ fill: 'green', shape: 'dot', text: 'Ready' });
 
         node.on('input', function (msg, send, done) {
-            console.log('Output node received message:', msg.payload);
-            
             // Get the channel from the config node instance
             const channel = node.server.channel;
             if (!channel) {
-                console.log('No channel available');
                 node.error('ws281x driver not initialized. Deploy config first.', msg);
                 node.status({ fill: 'red', shape: 'dot', text: 'Driver Error' });
                 if (done) done();
                 return;
             }
-
-            console.log('Channel available, processing payload');
             const payload = msg.payload;
             let render = true; // Default to rendering after a change.
 
             try {
                 if (typeof payload === 'string') {
-                    console.log('Processing string payload:', payload);
                     // Handle commands or a single color for the whole strip
                     if (payload.toLowerCase() === 'clear') {
-                        console.log('Calling driver.reset()');
                         driver.reset(); // reset() clears and renders
                         render = false;
                         node.status({ fill: 'green', shape: 'dot', text: 'Ready' });
@@ -51,7 +44,6 @@ module.exports = function (RED) {
                         const color = tinycolor(payload);
                         if (color.isValid()) {
                             const hexColor = parseInt(color.toHex8(), 16);
-                            console.log('Setting color:', hexColor);
                             for (let i = 0; i < channel.count; i++) {
                                 channel.array[i] = hexColor;
                             }
@@ -60,13 +52,11 @@ module.exports = function (RED) {
                         }
                     }
                 } else if (typeof payload === 'number') {
-                    console.log('Processing numeric payload:', payload);
                     // Fill strip with a single numeric color
                     for (let i = 0; i < channel.count; i++) {
                         channel.array[i] = payload;
                     }
                 } else if (typeof payload === 'object' && payload !== null) {
-                    console.log('Processing object payload:', payload);
                     if (Array.isArray(payload.pixels)) {
                         const pixelData = payload.pixels;
                         const len = Math.min(channel.count, pixelData.length);
@@ -95,7 +85,6 @@ module.exports = function (RED) {
 
                 // Render if not explicitly told not to, or if the node is configured to render on every message.
                 if (render || node.renderOnMsg) {
-                    console.log('Calling driver.render()');
                     driver.render();
                 }
 
@@ -105,7 +94,6 @@ module.exports = function (RED) {
                     done();
                 }
             } catch (err) {
-                console.log('Error in output node:', err);
                 if (done) {
                     done(err);
                 } else {
