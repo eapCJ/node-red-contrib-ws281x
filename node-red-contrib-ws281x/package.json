@@ -1,0 +1,49 @@
+{
+  "name": "node-red-contrib-ws281x",
+  "version": "0.1.0",
+  "description": "Node-RED nodes to control WS281x LEDs on a Raspberry Pi",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha \"test/**/*.test.js\""
+  },
+  "keywords": [
+    "node-red",
+    "raspberry-pi",
+    "rpi",
+    "ws281x",
+    "ws2812",
+    "neopixel",
+    "led"
+  ],
+  "author": {
+    "name": "Your Name",
+    "email": "you@example.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/node-red-contrib-ws281x.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YOUR_USERNAME/node-red-contrib-ws281x/issues"
+  },
+  "homepage": "https://github.com/YOUR_USERNAME/node-red-contrib-ws281x#readme",
+  "node-red": {
+    "nodes": {
+      "ws281x-config": "nodes/ws281x-config.js",
+      "ws281x-output": "nodes/ws281x-output.js"
+    }
+  },
+  "devDependencies": {
+    "chai": "^5.2.0",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.1",
+    "mocha": "^11.6.0",
+    "prettier": "^3.5.3",
+    "sinon": "^21.0.0"
+  },
+  "dependencies": {
+    "rpi-ws281x-native": "^1.0.4"
+  }
+}
